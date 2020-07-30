@@ -1,10 +1,12 @@
-const express = require('express');
+const { config } = require('./config');
 
+const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 
 process.env.NTBA_FIX_319 = 1;
- const TelegramBot = require('telegraf');
 
+const TelegramBot = require('telegraf');
 
 const keyboard = require('./keyboard');
 const kb = require('./keyboard-button')
@@ -15,12 +17,22 @@ const token = '1222941624:AAEVm_iIkPghW05LPECUl9H3lwPwilfSIOM';
 const bot = new TelegramBot(token);
 
 const welcomeMessage = `Welcome! `
+
+mongoose.connect(config.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.once('open', () => console.log('Connected'));
+db.once('error', (error) => console.log('Error', error));
+
 bot.start((ctx) => ctx.reply(welcomeMessage))
 bot.help((ctx) => ctx.reply('Send me a sticker'))
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
-bot.hears('Вибрати мову', msg => {
+bot.hears(kb.menu.languages, msg => {
   const chatId = getChatId(msg)
       bot.telegram.sendMessage(chatId,'chose the language',{
         reply_markup: {
