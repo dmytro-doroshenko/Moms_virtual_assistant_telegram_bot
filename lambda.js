@@ -1,6 +1,10 @@
-const awsServerlessExpress = require('aws-serverless-express');
-const app = require('./src/app.js');
+const bot = require("./src/bot");
 
-const server = awsServerlessExpress.createServer(app);
-
-exports.handler = (event, context) => { awsServerlessExpress.proxy(server, event, context); };
+exports.handler = (event, context, callback) => {
+  const update = JSON.parse(event.body); // get data passed to us
+  bot.handleUpdate(update); // make Telegraf process that data
+  return callback(null, { // return something for webhook, so it doesn't try to send same stuff again
+    statusCode: 200,
+    body: '',
+  });
+};
