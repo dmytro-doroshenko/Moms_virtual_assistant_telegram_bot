@@ -6,7 +6,8 @@ Mom`s virtual assistant.
 ## How to use
 
 ### Scan to open
-![QRcode](/QRcode/prodQRcode.jpg)
+
+![QRcode](./images/prod-qr-code.jpg)
 
 
 ## Development
