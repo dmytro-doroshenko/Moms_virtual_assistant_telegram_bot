@@ -8,7 +8,8 @@
     "dev": "nodemon src/app.js",
     "start": "nodemon src/app.js && npm run lint",
     "lint": "eslint --fix --ext .ts,.js src",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "deploy:prod": "serverless deploy --stage production"
   },
   "author": "",
   "license": "ISC",
