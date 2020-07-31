@@ -1,10 +1,21 @@
-const bot = require("./src/bot");
+const mongoose = require('mongoose');
 
-exports.handler = (event, context, callback) => {
+const bot = require("./src/bot");
+const {MONGO_DB_URL} = require('./src/config');
+
+exports.handler = async (event) => {
+
+    await mongoose.connect(MONGO_DB_URL, {
+      bufferCommands: false,
+      bufferMaxEntries: 0,
+      useUnifiedTopology: true,
+      useNewUrlParser: true
+    });
+
   const update = JSON.parse(event.body); // get data passed to us
-  bot.handleUpdate(update); // make Telegraf process that data
-  return callback(null, { // return something for webhook, so it doesn't try to send same stuff again
+  await bot.handleUpdate(update); // make Telegraf process that data
+  return { // return something for webhook, so it doesn't try to send same stuff again
     statusCode: 200,
     body: '',
-  });
+  };
 };
