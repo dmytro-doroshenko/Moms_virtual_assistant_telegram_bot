@@ -9,6 +9,10 @@ Mom`s virtual assistant.
 
 ![QRcode](./images/prod-qr-code.jpg)
 
+### Links to bots
+- dev: <https://telegram.me/momsAssistantDevBot>
+- prod: <https://telegram.me/momsVirtualBot>
+
 
 ## Development
 
