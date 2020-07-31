@@ -1,7 +1,11 @@
 const {model, Schema} = require('mongoose');
 
 const userSchema = new Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true
+    },
+    userName: {
         type: String,
         required: true
     },
@@ -10,7 +14,7 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    createdAt: {
+    cameFirstAt: {
         type: Date,
         required: true
     },
@@ -22,6 +26,6 @@ const userSchema = new Schema({
         type: String,
         required: true
     }
-})
+});
 
 module.exports = model('user', userSchema);

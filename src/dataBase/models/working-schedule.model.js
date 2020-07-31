@@ -17,6 +17,6 @@ const workingScheduleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: Doctor
     }
-})
+});
 
 module.exports = model('working-schedule', workingScheduleSchema);

@@ -25,6 +25,6 @@ const doctorSchema = new Schema({
         type: String,
         required: true
     },
-})
+});
 
 module.exports = model('doctor', doctorSchema);
