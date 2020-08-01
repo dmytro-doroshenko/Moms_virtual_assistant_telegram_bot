@@ -18,7 +18,6 @@ setWelcomeMessage = async () => {
     const {name} = welcomeMessage;
     const data = await botInfoModel.findOne({name});
 
-    console.log('data', data);
     if (!data) {
         await botInfoModel(welcomeMessage).save();
     }

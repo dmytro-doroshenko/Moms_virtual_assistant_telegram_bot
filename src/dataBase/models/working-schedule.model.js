@@ -13,7 +13,7 @@ const workingScheduleSchema = new Schema({
             required: true
         }
     },
-    doctor: {
+    doctor_id: {
         type: Schema.Types.ObjectId,
         ref: Doctor
     }

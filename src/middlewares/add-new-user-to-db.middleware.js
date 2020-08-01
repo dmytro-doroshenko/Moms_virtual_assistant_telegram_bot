@@ -9,7 +9,7 @@ module.exports = async (ctx, next) => {
     if (!userFromDB) {
         const userInfo = {
             telegramId: id,
-            firstName: first_name,
+            firstName: first_name || 'New User',
             userName: username,
             cameFirstAt: Date.now(),
             lastSeenAt: Date.now(),

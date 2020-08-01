@@ -40,7 +40,7 @@ bot.hears('Вибрати мову', ctx => {
             ]
         }
     })
-})
+});
 
 bot.command('test', msg => {
     // const text = `Привіт,${msg.from.first_name}\nВиберіть команду`;

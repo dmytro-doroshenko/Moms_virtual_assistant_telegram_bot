@@ -15,3 +15,7 @@ functions:
          - http:
              path: /
              method: post
+package:
+  exclude:
+    - .env
+    - app.js

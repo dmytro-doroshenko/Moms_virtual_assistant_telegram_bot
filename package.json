@@ -2,11 +2,11 @@
   "name": "moms-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js",
-    "start": "nodemon src/app.js && npm run lint",
+    "dev": "nodemon app.js",
+    "start": "nodemon app.js && npm run lint",
     "lint": "eslint --fix --ext .ts,.js src",
     "deploy": "serverless deploy",
     "deploy:prod": "serverless deploy --stage production"
@@ -27,6 +27,7 @@
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.7",
     "@types/morgan": "^1.9.1",
     "@types/nodemon": "^1.19.0",
