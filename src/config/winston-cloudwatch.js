@@ -22,7 +22,7 @@ const logger = new winston.createLogger({
   ],
 });
 
-if (NODE_ENV === 'development') {
+if (NODE_ENV === 'development' || NODE_ENV === 'production') {
   const cloudwatchConfig = {
     logGroupName: CLOUDWATCH_GROUP_NAME,
     logStreamName: `${CLOUDWATCH_GROUP_NAME}-${process.env.NODE_ENV}`,
