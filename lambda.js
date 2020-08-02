@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const bot = require("./src/bot");
-const {MONGO_DB_URL} = require('./src/config');
+const {appConfigs: {MONGO_DB_URL}} = require('./src/config');
 
 exports.handler = async (event) => {
     await mongoose.connect(MONGO_DB_URL, {
