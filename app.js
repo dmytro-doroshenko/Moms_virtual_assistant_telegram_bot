@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 // process.env.NTBA_FIX_319 = 1;
 
 const bot = require('./src/bot');
-const {MONGO_DB_URL} = require('./src/config');
+const { appConfigs: { MONGO_DB_URL }, logger } = require('./src/config');
 
 const app = express();
 
 mongoose.connect(MONGO_DB_URL, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: false
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
 });
 
 const db = mongoose.connection;
@@ -19,7 +19,18 @@ db.once('error', (error) => console.log('Error', error));
 
 bot.launch();
 
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
+app.use('*', (err, req, res, next) => {
+  logger.error({
+    method: req.method,
+    url: req.path,
+    data: req.body,
+    time: new Date(),
+    message: err.message,
+  });
+
+  next(err);
 });
 
+app.listen(5000, () => {
+  console.log('Server is running on port 5000');
+});

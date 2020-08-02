@@ -1,13 +1,13 @@
-const {models: {botInfoModel, userModel}} = require('../dataBase');
+const { models: { botInfoModel, userModel } } = require('../dataBase');
 
 module.exports = async (ctx) => {
-    const {id} = ctx.from;
+  const { id } = ctx.from;
 
-    const user = await userModel.findOne({telegramId: id});
+  const user = await userModel.findOne({ telegramId: id });
 
-    const {chosenLanguage} = user;
+  const { chosenLanguage } = user;
 
-    const welcomeMessage = await botInfoModel.findOne({name: 'welcomeMessage'});
+  const welcomeMessage = await botInfoModel.findOne({ name: 'welcomeMessage' });
 
-    return ctx.reply(welcomeMessage.params[chosenLanguage]);
+  return ctx.reply(welcomeMessage.params[chosenLanguage]);
 };
