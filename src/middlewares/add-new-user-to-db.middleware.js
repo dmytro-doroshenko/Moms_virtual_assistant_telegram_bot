@@ -12,8 +12,7 @@ module.exports = async (ctx, next) => {
             firstName: first_name || 'New User',
             userName: username,
             cameFirstAt: Date.now(),
-            lastSeenAt: Date.now(),
-            chosenLanguage: 'ua'
+            lastSeenAt: Date.now()
         };
         await userModel(userInfo).save();
     }

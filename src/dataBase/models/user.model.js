@@ -1,5 +1,9 @@
 const {model, Schema} = require('mongoose');
 
+const {systemInfo} = require('../../constants');
+
+const {LANGUAGE_CODES} = systemInfo;
+
 const userSchema = new Schema({
     firstName: {
         type: String,
@@ -23,7 +27,8 @@ const userSchema = new Schema({
     },
     chosenLanguage: {
         type: String,
-        required: true
+        required: true,
+        default: LANGUAGE_CODES.ua
     }
 });
 
