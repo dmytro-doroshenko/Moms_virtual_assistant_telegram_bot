@@ -11,7 +11,7 @@ const {
     updateUsersLastVisitTimeMiddleware
 } = require('./middlewares');
 
-const {aboutUs, chooseLanguage, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
+const {chooseLanguage, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
 const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ} = buttonsText;
 const {LANGUAGE_CODES} = systemInfo;
 
