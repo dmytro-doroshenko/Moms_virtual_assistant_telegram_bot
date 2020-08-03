@@ -4,7 +4,6 @@ const {replyMessages, systemInfo} = require('../constants');
 const {mainMenuKeyboard} = require('../keyboard');
 
 const {
-    ABOUT_US_MESSAGE,
     CHOOSE_LANGUAGE_MESSAGE,
     EMERGENCIES_EXTRA_MESSAGE,
     EMERGENCIES_MESSAGE,
@@ -17,10 +16,6 @@ const {LANGUAGE_CODES, LANGUAGES} = systemInfo;
 const {Markup} = Telegraf;
 
 module.exports = {
-    aboutUs: (ctx) => {
-        const {chosenLanguage} = ctx.state;
-        return ctx.reply(ABOUT_US_MESSAGE[chosenLanguage], mainMenuKeyboard(chosenLanguage))
-    },
     chooseLanguage: async (ctx) => {
         const buttons = [];
         const {chosenLanguage} = ctx.state;

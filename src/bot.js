@@ -21,7 +21,7 @@ bot.use(addNewUserToDbMiddleware, getChosenLanguageMiddleware, updateUsersLastVi
 
 bot.action(getTriggers(LANGUAGE_CODES), changeLanguageMiddleware, getChosenLanguageMiddleware, languageIsChanged);
 
-bot.hears(getTriggers(ABOUT_US), aboutUs);
+bot.hears(getTriggers(ABOUT_US), welcome); // about should be the same as welcome
 bot.hears(getTriggers(APPOINTMENT), inDevelopment);
 bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
 bot.hears(getTriggers(EMERGENCIES), emergencies);
