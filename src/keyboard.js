@@ -1,9 +1,16 @@
-const kb = require('./keyboard-button');
+const {Markup} = require('telegraf');
+
+const {buttonsText} = require('./constants');
+
+const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ} = buttonsText;
 
 module.exports = {
-  menu: [
-    [kb.menu.languages],
-    [kb.menu.OwnQuestion, kb.menu.PopularQuestion],
-    [kb.menu.Purpose],
-  ],
+  mainMenuKeyboard: (chosenLanguage) => {
+    return Markup.keyboard([
+      [FAQ[chosenLanguage], EMERGENCIES[chosenLanguage]],
+      [APPOINTMENT[chosenLanguage], CHANGE_LANGUAGE[chosenLanguage], ABOUT_US[chosenLanguage]]
+    ])
+        .resize()
+        .extra()
+  },
 };

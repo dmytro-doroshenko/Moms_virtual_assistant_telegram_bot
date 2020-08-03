@@ -5,5 +5,5 @@ const systemInfo = require('./system-info.enum');
 module.exports = {
     buttonsText,
     replyMessages,
-    systemInfo
+    systemInfo,
 };

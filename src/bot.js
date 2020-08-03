@@ -1,40 +1,32 @@
 const Telegraf = require('telegraf');
 
 const {appConfigs: {BOT_TOKEN}, logger} = require('./config');
-const {models: {userModel}} = require('./dataBase');
-
+const {buttonsText, systemInfo} = require('./constants');
+const {botRepliesController} = require('./controllers');
+const {getTriggers} = require('./helpers');
 const {
     addNewUserToDbMiddleware,
     changeLanguageMiddleware,
     getChosenLanguageMiddleware,
     updateUsersLastVisitTimeMiddleware
 } = require('./middlewares');
-const { chooseLanguageReply, languageIsChangedReply, welcomeReply } = require('./replies');
 
+const {chooseLanguage, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
+const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ} = buttonsText;
+const {LANGUAGE_CODES} = systemInfo;
 
 const bot = new Telegraf(BOT_TOKEN);
 
 bot.use(addNewUserToDbMiddleware, getChosenLanguageMiddleware, updateUsersLastVisitTimeMiddleware);
 
-bot.action(['ua', 'ru'], changeLanguageMiddleware, getChosenLanguageMiddleware, languageIsChangedReply);
+bot.action(getTriggers(LANGUAGE_CODES), changeLanguageMiddleware, getChosenLanguageMiddleware, languageIsChanged);
 
-bot.command('choose_language', chooseLanguageReply);
+bot.hears(getTriggers(ABOUT_US), inDevelopment);
+bot.hears(getTriggers(APPOINTMENT), inDevelopment);
+bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
+bot.hears(getTriggers(EMERGENCIES), emergencies);
+bot.hears(getTriggers(FAQ), inDevelopment);
 
-bot.help((ctx) => ctx.reply('Send me a sticker'));
-
-bot.on('sticker', (ctx) => ctx.reply('👍'));
-
-bot.start(welcomeReply, logger.log('info', 'Start using bot'));
-
-
-bot.hears('users', async (ctx) => {
-    const data = await userModel.find({});
-    return ctx.reply(JSON.stringify(data));
-});
-
-bot.hears('whoami', async (ctx) => {
-    const info = await JSON.stringify(ctx.from);
-    return ctx.reply(info);
-});
+bot.start(welcome, logger.log('info', 'Start using bot'));
 
 module.exports = bot;
