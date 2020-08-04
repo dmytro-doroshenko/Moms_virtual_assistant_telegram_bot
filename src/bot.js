@@ -1,14 +1,16 @@
 const Telegraf = require('telegraf');
 
-const {appConfigs: {BOT_TOKEN}, logger} = require('./config');
+const {appConfigs: {BOT_TOKEN}} = require('./config');
 const {buttonsText, systemInfo} = require('./constants');
 const {botRepliesController} = require('./controllers');
+const {errorHandler} = require('./errors');
 const {getTriggers} = require('./helpers');
 const {
     addNewUserToDbMiddleware,
     changeLanguageMiddleware,
     getChosenLanguageMiddleware,
-    updateUsersLastVisitTimeMiddleware
+    updateUsersLastVisitTimeMiddleware,
+    userLoggerMiddleware
 } = require('./middlewares');
 
 const {chooseLanguage, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
@@ -17,7 +19,7 @@ const {LANGUAGE_CODES} = systemInfo;
 
 const bot = new Telegraf(BOT_TOKEN);
 
-bot.use(addNewUserToDbMiddleware, getChosenLanguageMiddleware, updateUsersLastVisitTimeMiddleware);
+bot.use(addNewUserToDbMiddleware, getChosenLanguageMiddleware, updateUsersLastVisitTimeMiddleware, userLoggerMiddleware);
 
 bot.action(getTriggers(LANGUAGE_CODES), changeLanguageMiddleware, getChosenLanguageMiddleware, languageIsChanged);
 
@@ -27,6 +29,8 @@ bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
 bot.hears(getTriggers(EMERGENCIES), emergencies);
 bot.hears(getTriggers(FAQ), inDevelopment);
 
-bot.start(welcome, logger.log('info', 'Start using bot'));
+bot.catch(errorHandler);
+
+bot.start(welcome);
 
 module.exports = bot;

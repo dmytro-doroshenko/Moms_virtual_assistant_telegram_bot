@@ -1,10 +1,7 @@
-const express = require('express');
 const mongoose = require('mongoose');
 
-const app = express();
-
 const bot = require('./src/bot');
-const { appConfigs: { MONGO_DB_URL }, logger } = require('./src/config');
+const { appConfigs: { MONGO_DB_URL }} = require('./src/config');
 
 exports.handler = async (event) => {
   await mongoose.connect(MONGO_DB_URL, {
@@ -13,18 +10,6 @@ exports.handler = async (event) => {
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });
-
-  app.use('*', (err, req, res, next) => {
-    logger.error({
-      method: req.method,
-      url: req.path,
-      data: req.body,
-      time: new Date(),
-      message: err.message,
-    });
-
-    next(err);
   });
 
   const update = JSON.parse(event.body); // get data passed to us
