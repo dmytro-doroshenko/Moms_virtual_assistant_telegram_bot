@@ -3,6 +3,8 @@ require('dotenv').config();
 module.exports = {
   BOT_TOKEN: process.env.BOT_TOKEN || 'token not configured',
 
+  DIALOGFLOW_PROJECT_ID: process.env.DIALOGFLOW_PROJECT_ID || "mom-s-bot-bocc",
+
   MONGO_DB_URL: process.env.MONGO_DB_URL || 'localhost:27017',
 
   NODE_ENV: process.env.NODE_ENV || 'development',

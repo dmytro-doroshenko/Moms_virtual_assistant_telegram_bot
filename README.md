@@ -19,6 +19,7 @@ Mom`s virtual assistant.
 ### How to run localy
 
 - rename `.env.example` file to `.env` and put your own **bot token**
+- to your root folder add `google-cloud-key.json` file (to get this file ask someone from your team)
 - run `npm run dev` ( Note that your bot webhook will be removed, because of bot `launch` )
 
 ### Deploing code to AWS Lambda

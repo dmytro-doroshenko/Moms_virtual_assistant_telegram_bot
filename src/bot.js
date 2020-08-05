@@ -11,7 +11,7 @@ const {
     updateUsersLastVisitTimeMiddleware
 } = require('./middlewares');
 
-const {chooseLanguage, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
+const {chooseLanguage, getNLPAnswer, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
 const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ} = buttonsText;
 const {LANGUAGE_CODES} = systemInfo;
 
@@ -26,6 +26,8 @@ bot.hears(getTriggers(APPOINTMENT), inDevelopment);
 bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
 bot.hears(getTriggers(EMERGENCIES), emergencies);
 bot.hears(getTriggers(FAQ), inDevelopment);
+
+bot.on("text", getNLPAnswer);
 
 bot.start(welcome, logger.log('info', 'Start using bot'));
 
