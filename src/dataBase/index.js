@@ -12,7 +12,6 @@ module.exports = (hostingType) => {
 
     if (hostingType === 'lambda') {
         mongoose.set('bufferCommands', false);
-        mongoose.set('bufferMaxEntries', 0);
     }
 
     return connection;
