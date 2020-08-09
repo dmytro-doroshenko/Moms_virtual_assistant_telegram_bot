@@ -1,4 +1,4 @@
-const {models: {userModel}} = require('../dataBase');
+const {userModel} = require('../dataBase/models');
 
 module.exports = async (ctx, next) => {
 

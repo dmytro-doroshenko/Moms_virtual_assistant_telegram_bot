@@ -4,14 +4,11 @@ const mongoose = require('mongoose');
 
 const bot = require('./src/bot');
 const { appConfigs: { MONGO_DB_URL }, logger } = require('./src/config');
+const dataBaseConnection = require('./src/dataBase');
 
 const app = express();
 
-mongoose.connect(MONGO_DB_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useFindAndModify: false,
-});
+dataBaseConnection('local');
 
 const db = mongoose.connection;
 db.once('open', () => console.log('Connected'));
