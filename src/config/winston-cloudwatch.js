@@ -22,17 +22,15 @@ const logger = new winston.createLogger({
   ],
 });
 
-if (NODE_ENV === 'development' || NODE_ENV === 'production') {
   const cloudwatchConfig = {
     logGroupName: CLOUDWATCH_GROUP_NAME,
-    logStreamName: `${CLOUDWATCH_GROUP_NAME}-${process.env.NODE_ENV}`,
+    logStreamName: `${CLOUDWATCH_GROUP_NAME}-${NODE_ENV}`,
     awsAccessKeyId: CLOUDWATCH_ACCESS_KEY,
     awsSecretKey: CLOUDWATCH_SECRET_ACCESS_KEY,
     awsRegion: CLOUDWATCH_REGION,
-    messageFormatter: ({ level, message, additionalInfo }) => `[${level}] : ${message} \nAdditional Info: ${JSON.stringify(additionalInfo)}}`,
+    messageFormatter: ({ level, message }) => `[${level}] : ${message}`,
   };
 
   logger.add(new WinstonCloudWatch(cloudwatchConfig));
-}
 
 module.exports = logger;
