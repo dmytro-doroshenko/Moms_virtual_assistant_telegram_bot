@@ -9,11 +9,21 @@ const {
     addNewUserToDbMiddleware,
     changeLanguageMiddleware,
     getChosenLanguageMiddleware,
+    getDoctorsOnDutyMiddleware,
+    getNLPAnswerMiddleware,
     updateUsersLastVisitTimeMiddleware,
-    userLoggerMiddleware
+    userLoggerMiddleware,
 } = require('./middlewares');
 
-const {chooseLanguage, getNLPAnswer, emergencies, inDevelopment, languageIsChanged, welcome} = botRepliesController;
+const {
+    chooseLanguage,
+    emergencies,
+    inDevelopment,
+    languageIsChanged,
+    makeAnAppointment,
+    sendSorryMessage,
+    welcome
+} = botRepliesController;
 const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ} = buttonsText;
 const {LANGUAGE_CODES} = systemInfo;
 
@@ -24,15 +34,16 @@ bot.use(addNewUserToDbMiddleware, getChosenLanguageMiddleware, updateUsersLastVi
 bot.action(getTriggers(LANGUAGE_CODES), changeLanguageMiddleware, getChosenLanguageMiddleware, languageIsChanged);
 
 bot.hears(getTriggers(ABOUT_US), welcome); // about should be the same as welcome
-bot.hears(getTriggers(APPOINTMENT), inDevelopment);
+bot.hears(getTriggers(APPOINTMENT), getDoctorsOnDutyMiddleware, makeAnAppointment);
 bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
 bot.hears(getTriggers(EMERGENCIES), emergencies);
 bot.hears(getTriggers(FAQ), inDevelopment);
 
-bot.on("text", getNLPAnswer);
-
-bot.catch(errorHandler);
+bot.start(welcome, logger.log('info', 'Start using bot'));
 
 bot.start(welcome);
 
+bot.on("text", getNLPAnswerMiddleware, getDoctorsOnDutyMiddleware, sendSorryMessage);
+
+bot.catch(errorHandler);
 module.exports = bot;
