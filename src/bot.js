@@ -39,11 +39,10 @@ bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
 bot.hears(getTriggers(EMERGENCIES), emergencies);
 bot.hears(getTriggers(FAQ), inDevelopment);
 
-bot.start(welcome, logger.log('info', 'Start using bot'));
-
 bot.start(welcome);
 
 bot.on("text", getNLPAnswerMiddleware, getDoctorsOnDutyMiddleware, sendSorryMessage);
 
 bot.catch(errorHandler);
+
 module.exports = bot;

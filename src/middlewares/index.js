@@ -10,8 +10,8 @@ module.exports = {
     addNewUserToDbMiddleware,
     changeLanguageMiddleware,
     getChosenLanguageMiddleware,
-    updateUsersLastVisitTimeMiddleware,
-    userLoggerMiddleware
     getDoctorsOnDutyMiddleware,
     getNLPAnswerMiddleware,
+    updateUsersLastVisitTimeMiddleware,
+    userLoggerMiddleware,
 };
