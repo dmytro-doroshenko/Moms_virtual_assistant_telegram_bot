@@ -41,48 +41,27 @@ module.exports = {
       },
     };
 
-    sessionClient
-        .detectIntent(request)
-        .then((responses) => {
-          logger.info('Detected intent');
-          const { queryResult } = responses[0];
-          const { queryText, fulfillmentText, intent } = queryResult;
-          logger.info(`  Query: ${queryText}`);
-          logger.info(`  Response: ${fulfillmentText}`);
-
-          if (intent) {
-            logger.info(`  Intent: ${intent.displayName}`);
-            return chatbase
-              .newMessage()
-              .setIntent(intent.displayName)
-              .setMessage(fulfillmentText)
-              .send();
-          }
-          logger.info('No intent matched.');
-          return chatbase
-            .newMessage()
-            .setAsNotHandled()
-            .setMessage(fulfillmentText)
-            .send();
-        })
-        .then(() => {
-          console.log('send fulfillmentText');
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-
     //   Send request and log result
     const responses = await sessionClient.detectIntent(request);
     const result = responses[0].queryResult;
-    //    logger.info(`Query: ${result.queryText}`);
+    logger.info(`Query: ${result.queryText}`);
     const answer = result.fulfillmentText;
-    //    logger.info(`Response: ${answer}`);
+    logger.info(`Response: ${answer}`);
     if (result.intent) {
-      //      logger.info(`Intent matched: ${result.intent.displayName}`);
+        logger.info(`Intent matched: ${result.intent.displayName}`);
+        chatbase
+            .newMessage()
+            .setIntent(result.intent.displayName)
+            .setMessage(answer)
+            .send();
       return answer;
     }
-    //    logger.info('No intent matched.');
+
+    logger.info('No intent matched.');
+    chatbase
+          .newMessage()
+          .setAsNotHandled()
+          .send();
     return null;
   },
 };
