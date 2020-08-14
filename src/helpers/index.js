@@ -13,6 +13,10 @@ module.exports = {
         return replyMessage;
     },
 
+    getFullTrainingPhrase: (parts) => {
+        return parts.map(p => p.text).join("");
+    },
+
     getTriggers: (obj) => {
         const requests_list = [];
 

@@ -2,7 +2,8 @@ const chatbase = require('@google/chatbase');
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
 
-const {normalizeLanguageCode} = require("../helpers/index")
+const {normalizeLanguageCode, getFullTrainingPhrase} = require("../helpers/index");
+
 const {
   appConfigs: {
     DIALOGFLOW_PROJECT_ID,
@@ -26,12 +27,15 @@ module.exports = {
     // Create a new session
     const sessionClient = new dialogflow.SessionsClient({
       keyFilename: `${__dirname}../../../google-cloud-key.json`,
+      projectId: DIALOGFLOW_PROJECT_ID
     });
+
     const sessionPath = sessionClient.sessionPath(DIALOGFLOW_PROJECT_ID, sessionId);
 
     // The text query request.
     const request = {
       session: sessionPath,
+      intentView: 1,
       queryInput: {
         text: {
           // The query to send to the dialogflow agent
@@ -47,14 +51,18 @@ module.exports = {
     logger.info(`Query: ${result.queryText}`);
     const answer = result.fulfillmentText;
     logger.info(`Response: ${answer}`);
+    const intentDetectionConfidence = result.intentDetectionConfidence;
+    logger.info(`Intent detection confidence: ${intentDetectionConfidence}`);
     if (result.intent) {
-        logger.info(`Intent matched: ${result.intent.displayName}`);
+        const intentName = result.intent.name;
+        logger.info(`Intent name: ${intentName}`);
+        logger.info(`Intent display name: ${result.intent.displayName}`);
         chatbase
             .newMessage()
             .setIntent(result.intent.displayName)
             .setMessage(answer)
             .send();
-      return answer;
+      return {answer, intentDetectionConfidence, intentName};
     }
     logger.info('No intent matched.');
     chatbase
@@ -87,13 +95,32 @@ module.exports = {
       const splitedIntent = intent.displayName.split('.');
       
       if (splitedIntent[splitedIntent.length-1] === category) {
-        const trainingPhrase = intent.trainingPhrases[0].parts.map(p => p.text).join("");
+        const trainingPhrase = getFullTrainingPhrase(intent.trainingPhrases[0].parts);
         categoryIntents.push(trainingPhrase)
       }
     });
     logger.info(`categoryIntents: ${categoryIntents}`);
     return categoryIntents;
+  },
+
+  getIntentTrainingPhrase: async (intentName, languageCode) => {
+    const intentsClient = new dialogflow.IntentsClient({
+      keyFilename: `${__dirname}../../../google-cloud-key.json`,
+      projectId: DIALOGFLOW_PROJECT_ID
+    });
+    // The path to identify the agent that owns the intents.
+    const request = {
+      name: intentName,
+      languageCode: normalizeLanguageCode(languageCode),
+      intentView: 1,
+    };
+    // Send the request for listing intents.
+    const [response] = await intentsClient.getIntent(request);
+
+    const result = getFullTrainingPhrase(response.trainingPhrases[0].parts)
+
+    return result;
   }
-};
+ };
 
 
