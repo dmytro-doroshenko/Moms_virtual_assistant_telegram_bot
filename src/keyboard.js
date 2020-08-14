@@ -1,18 +1,23 @@
 const {Markup} = require('telegraf');
 
-const {buttonsText, systemInfo} = require('./constants');
+const {buttonsText, systemInfo, faqButtonsText} = require('./constants');
 
-const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ} = buttonsText;
+const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ, QUESTION, MAIN_MENU} = buttonsText;
 const {LANGUAGE_CODES, LANGUAGES} = systemInfo;
+const {setButtonsView} = require("./helpers/index");
+
 
 module.exports = {
-    mainMenuKeyboard: (chosenLanguage) => {
-        return Markup.keyboard([
-            [FAQ[chosenLanguage], EMERGENCIES[chosenLanguage]],
-            [APPOINTMENT[chosenLanguage], CHANGE_LANGUAGE[chosenLanguage], ABOUT_US[chosenLanguage]]
-        ])
-            .resize()
-            .extra();
+    categoryKeyboard: (chosenLanguage) => { 
+        const buttons = [];
+
+        Object.keys(faqButtonsText).forEach((key) => {
+            const title = faqButtonsText[key][chosenLanguage];
+            const button = Markup.callbackButton(title, key);
+            buttons.push(button);
+        });
+
+        return Markup.inlineKeyboard(setButtonsView(buttons, 2)).resize().extra();
     },
 
     chooseLanguageInlineKeyboard: () => {
@@ -24,5 +29,18 @@ module.exports = {
         });
 
         return Markup.inlineKeyboard(buttons).extra();
+    },
+
+    FAQKeybord:  (questions, chosenLanguage) => {
+        return Markup.keyboard([MAIN_MENU[chosenLanguage], ...questions, MAIN_MENU[chosenLanguage]]).resize().extra();
+    },
+
+    mainMenuKeyboard: (chosenLanguage) => {
+        return Markup.keyboard([
+            [FAQ[chosenLanguage], QUESTION[chosenLanguage]], [EMERGENCIES[chosenLanguage]],
+            [APPOINTMENT[chosenLanguage], CHANGE_LANGUAGE[chosenLanguage], ABOUT_US[chosenLanguage]]
+        ])
+            .resize()
+            .extra();
     },
 };

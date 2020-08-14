@@ -28,4 +28,22 @@ module.exports = {
 
         return date.getDay();
     },
+
+    setButtonsView: (buttons, row) => {
+        const buttonsBox = [];
+        let i = 0;
+        while(i < buttons.length) {
+            const buttonRow = [];
+            for (let j = 0; j < row && i < buttons.length; j++) {
+                buttonRow.push(buttons[i]);
+                i++;
+            }
+            buttonsBox.push(buttonRow);
+        }
+        return buttonsBox;
+    },
+
+    normalizeLanguageCode: (languageCode) => {
+        return languageCode === 'ua' ? 'uk' : 'ru';
+    }
 };

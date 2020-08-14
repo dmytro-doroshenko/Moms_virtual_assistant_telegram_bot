@@ -2,6 +2,7 @@ const chatbase = require('@google/chatbase');
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
 
+const {normalizeLanguageCode} = require("../helpers/index")
 const {
   appConfigs: {
     DIALOGFLOW_PROJECT_ID,
@@ -36,11 +37,10 @@ module.exports = {
           // The query to send to the dialogflow agent
           text: message,
           // The language used by the client
-          languageCode,
+          languageCode: normalizeLanguageCode(languageCode),
         },
       },
     };
-
     //   Send request and log result
     const responses = await sessionClient.detectIntent(request);
     const result = responses[0].queryResult;
@@ -56,7 +56,6 @@ module.exports = {
             .send();
       return answer;
     }
-
     logger.info('No intent matched.');
     chatbase
           .newMessage()
@@ -64,4 +63,37 @@ module.exports = {
           .send();
     return null;
   },
+
+  listIntents: async (category, languageCode) => {
+    const intentsClient = new dialogflow.IntentsClient({
+      keyFilename: `${__dirname}../../../google-cloud-key.json`,
+      projectId: DIALOGFLOW_PROJECT_ID
+    });
+    // The path to identify the agent that owns the intents.
+    const projectAgentPath = intentsClient.projectAgentPath(DIALOGFLOW_PROJECT_ID);
+
+    const request = {
+      parent: projectAgentPath,
+      languageCode: normalizeLanguageCode(languageCode),
+      intentView: 1,
+      pageSize: 200,
+    };
+
+    // Send the request for listing intents.
+    const [response] = await intentsClient.listIntents(request);
+    
+    const categoryIntents = [];
+    response.forEach(intent => {
+      const splitedIntent = intent.displayName.split('.');
+      
+      if (splitedIntent[splitedIntent.length-1] === category) {
+        const trainingPhrase = intent.trainingPhrases[0].parts.map(p => p.text).join("");
+        categoryIntents.push(trainingPhrase)
+      }
+    });
+    logger.info(`categoryIntents: ${categoryIntents}`);
+    return categoryIntents;
+  }
 };
+
+
