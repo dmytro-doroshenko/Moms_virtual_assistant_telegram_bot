@@ -35,8 +35,15 @@ module.exports = {
         while(i < buttons.length) {
             const buttonRow = [];
             for (let j = 0; j < row && i < buttons.length; j++) {
-                buttonRow.push(buttons[i]);
-                i++;
+                if(buttons[i].text.length > 25) {
+                    buttonRow.push(buttons[i]);
+                    j++;
+                    i++;
+                }
+                else {
+                    buttonRow.push(buttons[i]);
+                    i++;
+                }
             }
             buttonsBox.push(buttonRow);
         }
