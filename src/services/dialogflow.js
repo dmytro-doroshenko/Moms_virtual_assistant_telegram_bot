@@ -65,10 +65,11 @@ module.exports = {
       return {answer, intentDetectionConfidence, intentName};
     }
     logger.info('No intent matched.');
-    chatbase
-          .newMessage()
-          .setAsNotHandled()
-          .send();
+    // TODO: fix this, need to add more fields. it was erroring otherways
+    // chatbase
+    //       .newMessage()
+    //       .setAsNotHandled()
+    //       .send();
     return null;
   },
 
