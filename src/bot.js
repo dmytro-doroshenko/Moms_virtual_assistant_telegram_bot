@@ -28,7 +28,7 @@ const {
     welcome
 } = botRepliesController;
 
-const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ, QUESTION, MAIN_MENU} = buttonsText;
+const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ, MAIN_MENU} = buttonsText;
 const {LANGUAGE_CODES} = systemInfo;
 
 const bot = new Telegraf(BOT_TOKEN);
@@ -42,7 +42,6 @@ bot.hears(getTriggers(APPOINTMENT), getDoctorsOnDutyMiddleware, makeAnAppointmen
 bot.hears(getTriggers(CHANGE_LANGUAGE), chooseLanguage);
 bot.hears(getTriggers(EMERGENCIES), emergencies);
 bot.hears(getTriggers(FAQ), categoriesKeyboard);
-bot.hears(getTriggers(QUESTION), ownQuestion);
 bot.hears(getTriggers(MAIN_MENU), backToMainMenu);
 
 

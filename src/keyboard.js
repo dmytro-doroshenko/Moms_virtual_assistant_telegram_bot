@@ -2,7 +2,7 @@ const {Markup} = require('telegraf');
 
 const {buttonsText, systemInfo, faqButtonsText} = require('./constants');
 
-const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ, QUESTION, MAIN_MENU} = buttonsText;
+const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ, MAIN_MENU} = buttonsText;
 const {LANGUAGE_CODES, LANGUAGES} = systemInfo;
 const {setButtonsView} = require("./helpers/index");
 
@@ -37,8 +37,8 @@ module.exports = {
 
     mainMenuKeyboard: (chosenLanguage) => {
         return Markup.keyboard([
-            [FAQ[chosenLanguage], QUESTION[chosenLanguage]], [EMERGENCIES[chosenLanguage]],
-            [APPOINTMENT[chosenLanguage], CHANGE_LANGUAGE[chosenLanguage], ABOUT_US[chosenLanguage]]
+            [FAQ[chosenLanguage], EMERGENCIES[chosenLanguage]],
+            [CHANGE_LANGUAGE[chosenLanguage], APPOINTMENT[chosenLanguage], ABOUT_US[chosenLanguage]]
         ])
             .resize()
             .extra();

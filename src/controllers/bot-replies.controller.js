@@ -75,13 +75,7 @@ module.exports = {
         //     EMERGENCY_CONTACT.NAME[chosenLanguage]
         // ));
     },
-
-    // inDevelopment: (ctx) => {
-    //     const {chosenLanguage} = ctx.state;
-
-    //     return ctx.reply(IN_DEVELOPMENT_MESSAGE[chosenLanguage]);
-    // },
-
+    
     languageIsChanged: (ctx) => {
         const {chosenLanguage} = ctx.state;
 
@@ -105,12 +99,6 @@ module.exports = {
         }
 
         return ctx.reply(response);
-    },
-    
-    ownQuestion: (ctx) => {
-        const {chosenLanguage} = ctx.state;
-        
-        return ctx.reply(ASK_OWN_QUESTION_MESSAGE[chosenLanguage])
     },
 
     sendSorryMessage: async (ctx) => {
