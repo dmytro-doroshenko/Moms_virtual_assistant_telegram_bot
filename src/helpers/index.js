@@ -14,6 +14,10 @@ module.exports = {
         return replyMessage;
     },
 
+    getFullTrainingPhrase: (parts) => {
+        return parts.map(p => p.text).join("");
+    },
+
     getTriggers: (obj) => {
         const requests_list = [];
 
@@ -29,4 +33,29 @@ module.exports = {
 
         return date.getDay();
     },
+
+    setButtonsView: (buttons, row) => {
+        const buttonsBox = [];
+        let i = 0;
+        while(i < buttons.length) {
+            const buttonRow = [];
+            for (let j = 0; j < row && i < buttons.length; j++) {
+                if(buttons[i].text.length > 25) {
+                    buttonRow.push(buttons[i]);
+                    j++;
+                    i++;
+                }
+                else {
+                    buttonRow.push(buttons[i]);
+                    i++;
+                }
+            }
+            buttonsBox.push(buttonRow);
+        }
+        return buttonsBox;
+    },
+
+    normalizeLanguageCode: (languageCode) => {
+        return languageCode === 'ua' ? 'uk' : 'ru';
+    }
 };

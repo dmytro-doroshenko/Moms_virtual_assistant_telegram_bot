@@ -1,18 +1,25 @@
 const {replyMessages} = require('../constants');
 const {createDoctorsListForResponse} = require('../helpers');
-const {chooseLanguageInlineKeyboard, mainMenuKeyboard} = require('../keyboard');
+const {chooseLanguageInlineKeyboard, mainMenuKeyboard, categoryKeyboard, FAQKeybord} = require('../keyboard');
+const {listIntents} = require("../services/dialogflow");
+const {faqButtonsText} = require('../constants');
 
 const {
     APPOINTMENT_AFTER_MESSAGE,
     APPOINTMENT_BEFORE_MESSAGE,
     APPOINTMENT_DAY_OFF_AFTER_MESSAGE,
     APPOINTMENT_DAY_OFF_BEFORE_MESSAGE,
+    ASK_OWN_QUESTION_MESSAGE,
+    BACK_TO_MENU_MESSAGE,
     CHOOSE_LANGUAGE_MESSAGE,
+    CHOOSE_QUESTION_MESSAGE_PART_ONE,
+    CHOOSE_QUESTION_MESSAGE_PART_TWO,
     DAY_OFF_SORRY_MESSAGE_AFTER,
     DAY_OFF_SORRY_MESSAGE_BEFORE,
     EMERGENCIES_EXTRA_MESSAGE,
     EMERGENCIES_MESSAGE,
     EMERGENCY_CONTACT,
+    FAQ_MESSAGE,
     IN_DEVELOPMENT_MESSAGE,
     LANGUAGE_IS_CHANGED_MESSAGE,
     SORRY_MESSAGE_AFTER,
@@ -21,6 +28,27 @@ const {
 } = replyMessages;
 
 module.exports = {
+    backToMainMenu: (ctx) => {
+        const {chosenLanguage} = ctx.state;
+
+        return ctx.reply(BACK_TO_MENU_MESSAGE[chosenLanguage], mainMenuKeyboard(chosenLanguage))
+    },
+
+    categoriesKeyboard: (ctx) => {
+        const {chosenLanguage} = ctx.state;
+       
+        return ctx.reply(FAQ_MESSAGE[chosenLanguage], categoryKeyboard(chosenLanguage))
+    },
+
+    categoryIntents: async (ctx, category) => {
+        const {chosenLanguage} = ctx.state;
+        const intents = await listIntents(category, chosenLanguage);
+
+        return ctx.reply(CHOOSE_QUESTION_MESSAGE_PART_ONE[chosenLanguage] + 
+                        '"' + faqButtonsText[category][chosenLanguage]+ 
+                        '". \n' + CHOOSE_QUESTION_MESSAGE_PART_TWO[[chosenLanguage]], FAQKeybord(intents, chosenLanguage));
+    },
+
     chooseLanguage: async (ctx) => {
         const {chosenLanguage} = ctx.state;
 
@@ -47,13 +75,7 @@ module.exports = {
         //     EMERGENCY_CONTACT.NAME[chosenLanguage]
         // ));
     },
-
-    inDevelopment: (ctx) => {
-        const {chosenLanguage} = ctx.state;
-
-        return ctx.reply(IN_DEVELOPMENT_MESSAGE[chosenLanguage]);
-    },
-
+    
     languageIsChanged: (ctx) => {
         const {chosenLanguage} = ctx.state;
 
