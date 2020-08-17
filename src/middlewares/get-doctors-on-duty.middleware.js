@@ -8,7 +8,7 @@ module.exports = async (ctx, next) => {
 
     const now = new Date();
     let dayIndex = now.getUTCDay();
-    const currHour = now.getUTCHours() + 3;
+    const currHour = (now.getUTCHours() + 3) % 24;
 
     const workingHoursEnd = +WORKING_HOURS[dayIndex].to.split(':')[0];
 
