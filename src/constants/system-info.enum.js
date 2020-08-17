@@ -37,6 +37,7 @@ module.exports = {
         ru: 'Русский',
         ua: 'Українська',
     },
+    TIME_ZONE_OFFSET: +3,
     WORKING_HOURS: {
         0: {
             from: '8:00',

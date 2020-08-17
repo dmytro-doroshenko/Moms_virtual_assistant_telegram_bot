@@ -1,14 +1,19 @@
 const {systemInfo} = require('../constants');
 const {getAllDoctors, getDoctorsOnDuty} = require('../services/bot.service');
 
-const {WORKING_HOURS} = systemInfo;
+const {TIME_ZONE_OFFSET, WORKING_HOURS} = systemInfo;
 
 module.exports = async (ctx, next) => {
     const {chosenLanguage} = ctx.state;
 
     const now = new Date();
     let dayIndex = now.getUTCDay();
-    const currHour = (now.getUTCHours() + 3) % 24;
+    let utcHour = now.getUTCHours();
+    const currHour = (utcHour + TIME_ZONE_OFFSET) % 24;
+
+    if (Math.trunc((utcHour + TIME_ZONE_OFFSET)/24)) {
+        ++dayIndex;
+    }
 
     const workingHoursEnd = +WORKING_HOURS[dayIndex].to.split(':')[0];
 
