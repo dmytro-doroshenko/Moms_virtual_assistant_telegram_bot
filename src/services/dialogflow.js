@@ -90,11 +90,11 @@ module.exports = {
 
     // Send the request for listing intents.
     const [response] = await intentsClient.listIntents(request);
-    
+
     const categoryIntents = [];
     response.forEach(intent => {
       const splitedIntent = intent.displayName.split('.');
-      
+
       if (splitedIntent[splitedIntent.length-1] === category) {
         const trainingPhrase = getFullTrainingPhrase(intent.trainingPhrases[0].parts);
         categoryIntents.push(trainingPhrase)

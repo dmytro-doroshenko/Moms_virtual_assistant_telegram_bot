@@ -22,7 +22,6 @@ const {
     languageIsChanged,
     makeAnAppointment,
     categoriesKeyboard,
-    ownQuestion,
     sendSorryMessage,
     categoryIntents,
     welcome

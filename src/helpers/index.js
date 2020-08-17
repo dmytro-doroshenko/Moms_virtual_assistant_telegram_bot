@@ -5,8 +5,8 @@ module.exports = {
         await doctorsList.forEach(doctor => {
             const {name, phone, position, specialty} = doctor;
 
-            const row = `${name[language]}, \n ${position[language].toLowerCase()} ` +
-                `${specialty[language].toLowerCase()}, \n ${phone} \n\n`
+            const row = `${name[language]}, \n${position[language].toLowerCase()} ` +
+                `${specialty[language].toLowerCase()}, \n${phone} \n\n`
 
             replyMessage += row;
         });
@@ -26,12 +26,6 @@ module.exports = {
         });
 
         return requests_list;
-    },
-
-    getWeekDay: (timestamp) => {
-        const date = new Date(timestamp);
-
-        return date.getDay();
     },
 
     setButtonsView: (buttons, row) => {
