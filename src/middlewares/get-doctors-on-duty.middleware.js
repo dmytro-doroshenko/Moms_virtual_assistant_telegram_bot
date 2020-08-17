@@ -7,8 +7,8 @@ module.exports = async (ctx, next) => {
     const {chosenLanguage} = ctx.state;
 
     const now = new Date();
-    let dayIndex = now.getDay();
-    const currHour = now.getHours();
+    let dayIndex = now.getUTCDay();
+    const currHour = now.getUTCHours() + 3;
 
     const workingHoursEnd = +WORKING_HOURS[dayIndex].to.split(':')[0];
 
