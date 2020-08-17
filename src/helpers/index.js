@@ -5,7 +5,8 @@ module.exports = {
         await doctorsList.forEach(doctor => {
             const {name, phone, position, specialty} = doctor;
 
-            const row = `- ${position[language]} ${specialty[language].toLowerCase()} ${name[language]}, ${phone} \n`
+            const row = `${name[language]}, \n ${position[language].toLowerCase()} ` +
+                `${specialty[language].toLowerCase()}, \n ${phone} \n\n`
 
             replyMessage += row;
         });
