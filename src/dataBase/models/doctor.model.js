@@ -18,19 +18,21 @@ const doctorSchema = new Schema({
     position: {
         ru: {
             type: String,
+            required: false,
         },
         ua: {
             type: String,
+            required: false,
         },
     },
     specialty: {
         ru: {
             type: String,
-            required: true,
+            required: false,
         },
         ua: {
             type: String,
-            required: true,
+            required: false,
         },
     },
     working_weekdays: [{
