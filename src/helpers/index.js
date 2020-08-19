@@ -6,7 +6,7 @@ module.exports = {
             const {name, phone, position, specialty} = doctor;
 
             const row = `${name[language]}, \n${position[language].toLowerCase()} ` +
-                `${specialty[language].toLowerCase()}, \n${phone} \n\n`
+                `${specialty[language].toLowerCase()} \n${phone} \n\n`
 
             replyMessage += row;
         });

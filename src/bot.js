@@ -15,6 +15,8 @@ const {
     userLoggerMiddleware,
 } = require('./middlewares');
 
+require('./dataBase/insertDefaultData')();
+
 const {
     backToMainMenu,
     chooseLanguage,
@@ -26,7 +28,6 @@ const {
     categoryIntents,
     welcome
 } = botRepliesController;
-
 const {ABOUT_US, APPOINTMENT, CHANGE_LANGUAGE, EMERGENCIES, FAQ, MAIN_MENU} = buttonsText;
 const {LANGUAGE_CODES} = systemInfo;
 

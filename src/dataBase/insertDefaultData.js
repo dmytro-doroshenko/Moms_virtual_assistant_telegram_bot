@@ -1,4 +1,4 @@
-const doctors = [
+const doctorsInfo = [
     {
         name: {
             ru: 'Душенко Инна Аведисовна',
@@ -101,12 +101,12 @@ const doctors = [
         },
         phone: '0984922527',
         position: {
-            ru: '',
-            ua: '',
+            ru: 'Перинатальный психолог',
+            ua: 'Перинатальний психолог',
         },
         specialty: {
-            ru: 'перинатальный психолог',
-            ua: 'перинатальний психолог',
+            ru: '',
+            ua: '',
         },
         working_weekdays: [
             {
@@ -177,33 +177,7 @@ const doctors = [
     },
 ]
 
-const welcomeMessage = {
-    name: 'welcomeMessage',
-    params: {
-        ua: 'Привіт! Я чат-бот!\n' + 'Я тут для того, щоб підтримати Вас, надати Вам належну професійну допомогу' +
-            ' медичних працівників, стосовно грудного вигодовування, відповісти на питання, які Вас цікавлять і' +
-            ' допомогти розібратися в ситуаціях, які Вас хвилюють в цей щасливий і, часом, незрозумілий момент' +
-            ' встановлення зв\'язку "мати-дитина"',
-        ru: 'Привет! Я чат-бот!\n' + 'Я здесь для того, чтобы поддержать Вас, предоставить Вам надлежащую' +
-            ' профессиональную помощь медицинских работников, в отношении грудного вскармливания, ответить на' +
-            ' вопросы, которые Вас интересуют и помочь разобраться в ситуациях, которые Вас волнуют в этот' +
-            ' счастливый и, временами, непонятный момент установления связи "мать-ребенок"'
-    }
-};
-
-setWelcomeMessage = async () => {
-    const {botInfoModel} = require('./models');
-
-    const {name} = welcomeMessage;
-    const data = await botInfoModel.findOne({name});
-
-    if (!data) {
-        await botInfoModel(welcomeMessage).save();
-    }
-};
-
-setDoctorsInfo = async () => {
-    let updateAll = false;
+setDoctorsInfo = async (doctors, updateAll = false) => {
     const {doctorModel} = require('./models');
 
     for (const doctor of doctors) {
@@ -219,6 +193,5 @@ setDoctorsInfo = async () => {
 };
 
 module.exports = async () => {
-    await setWelcomeMessage();
-    await setDoctorsInfo();
+    await setDoctorsInfo(doctorsInfo);
 };
